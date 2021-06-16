@@ -12,11 +12,13 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
+    .react()
     .extract([
         'lodash',
         'popper',
         'jquery',
-        'bootstrap'
+        'bootstrap',
+        'react'
     ])
     .sass('resources/sass/app.scss', 'public/css')
     .postCss('resources/css/app.css', 'public/css', [

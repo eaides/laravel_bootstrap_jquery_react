@@ -220,3 +220,133 @@ Add it as normal inside MainVue.vue
 https://arter.dev/how-to-install-vue-3-in-laravel-8-from-scratch		TODO
 ---------------------- REACT ------------------------------------
 
+yarn add react --dev
+yarn add react-dom --dev
+yarn add @babel/preset-react --dev
+yarn install
+
+will add to package.json
+	"@babel/preset-react": "^7.14.5",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+
+2) add to webpack.mix.js
+
+mix.js('resources/js/app.js', 'public/js')
+    .react()							<<<<
+    .extract([
+        'lodash',
+        'popper',
+        'jquery',
+        'bootstrap',
+        'react'							<<<<
+    ])
+    .sass('resources/sass/app.scss', 'public/css')
+    .postCss('resources/css/app.css', 'public/css', [
+        //
+    ])
+    .sourceMaps();
+
+    if (mix.inProduction()) {
+	mix.version();
+    }
+
+yarn install
+yarn dev
+
+3) Create main react entry point and application (js and css)
+in /resources/js/		create the component MainReact.js and MainReact.css (can be empty)
+
+	import './MainReact.css';
+
+	function MainReact() {
+	    return (
+		<>
+		</>
+	    );
+	}
+
+	export default MainReact;
+
+4) Import React to the Laravel javascript file, in resources/app.js
+
+	// vanilla JS
+	require('./bootstrap');
+
+	// REACT
+	import React from 'react';
+	import ReactDOM from 'react-dom';
+	import MainReact from './MainReact';
+
+	ReactDOM.render(
+	    <React.StrictMode>
+		<MainReact />
+	    </React.StrictMode>,
+	    document.getElementById('mainAppReact')
+	);
+
+5) Use in the blade template:
+
+	<body class="antialiased">
+
+		<div id="mainAppReact">
+		   <main-react />
+		</div>
+
+		<script src="{{ asset('js/app.js') }}"></script>
+	</body>
+
+--- Create Vue 3 component(s) ---
+
+in /resources/js/components/ create the components like MyComponent.vue
+
+import React from 'react';
+
+	const MyComponent = () => {
+	    let author = {
+		name: "Ernesto",
+		surname: "Aides"
+	    };
+
+	    return (
+		<>
+		    <div className="container">
+		        <div className="card">
+		            <div className="card-header">
+		                <h5 className="card-title">My Component</h5>
+		            </div>
+		            <div className="card-body">
+		                <p className="card-text">
+		                    Component by {author.name} {author.surname}
+		                </p>
+		            </div>
+		        </div>
+		    </div>
+		</>
+	    )
+	}
+
+	export default MyComponent
+
+
+Add it as normal inside MainReact.js
+
+	import './MainReact.css';
+	// Componenets
+	import MyComponent from './components/MyComponent'
+
+	function MainReact() {
+	    return (
+		<>
+			<MyComponent />
+		</>
+	    );
+	}
+
+	export default MainReact;
+
+
+
+
+
+
